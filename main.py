@@ -6,39 +6,42 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def sigmoid_derivative(x):
-    return sigmoid(x) * (1 - sigmoid(x))
+inputs = np.array(data.data)
 
 
-# Independent variables
-input_set = np.array(data.data)
-
-# Dependent variable
 labels = np.array(data.labels)
 
-# to convert labels to vector
-labels = labels.reshape((100, 10))
-
-np.random.seed(42)
+np.random.seed(77)
 weights = np.random.rand(2304, 10)
-bias = np.random.rand(1)
-lr = 0.05  # learning rate
+biases = np.random.rand(10)
 
-for epoch in range(25000):
-    inputs = input_set
-    XW = np.dot(inputs, weights) + bias
-    z = sigmoid(XW)
-    error = z - labels
-    print(error.sum())
-    dcost = error
-    dpred = sigmoid_derivative(z)
-    z_del = dcost * dpred
-    inputs = input_set.T
-    weights = weights - lr * np.dot(inputs, z_del)
+outputs = []
+for h in inputs:
+    image = []
+    for i in range(10):
+        tmp = 0
+        for j in range(len(h)):
+            tmp += h[j] * weights[j][i]
+        tmp += biases[i]
+        image.append(sigmoid(tmp))
+    outputs.append(image)
 
-    for num in z_del:
-        bias = bias - lr * num
+print(outputs)
 
-single_pt = np.array([1, 1, 1])
-result = sigmoid(np.dot(single_pt, weights) + bias)
-print(result)
+
+
+
+"""
+[
+[1, 3, 4 ... 2304],
+[1, 3, 4],
+[1, 3, 4],
+[1, 3, 4],
+[1, 3, 4],
+[1, 3, 4],
+[1, 3, 4]
+... 100
+]
+
+
+"""
