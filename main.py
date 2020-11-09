@@ -23,7 +23,7 @@ for h in inputs:
         for j in range(len(h)):
             tmp += h[j] * weights[j][i]
         tmp += biases[i]
-        image.append(sigmoid(tmp))
+        image.append(max(tmp, 0))
     outputs.append(image)
 
 print(outputs)
